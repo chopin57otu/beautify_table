@@ -1,12 +1,12 @@
 from setuptools import setup
 
 setup(
-    name='sfcr_parsing',
+    name='beautify_table',
     version='0.1',
-    packages=['sfcr_parsing'],
+    packages=['beautify_table'],
     url='',
     license='MIT',
-    author='mstransky003',
+    author='57_OTU_Chopin',
     author_email='stranma5@gmail.com',
-    description='Small project for cleaning and mapping csv outputs of http://tabula.ondata.it/ tool.'
+    description='Cleaning data tables from parsed documents.'
 )
