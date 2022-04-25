@@ -37,11 +37,12 @@ def squeeze_headers(pdf, number_area):
     return sc
 
 
-def merge_coumns(pdf):
+def merge_columns(pdf):
     columns_to_drop = []
     for c1, c2 in zip(pdf.columns, pdf.columns[1:]):
+        c1s, c2s = str(c1), str(c2)
         all_is_nan = (pdf[c1] == "NaN").all()
-        if not isinstance(all_is_nan, pd.Series) and all_is_nan and c2[0] == "*":
+        if not isinstance(all_is_nan, pd.Series) and all_is_nan and c2s[0] == "*":
             pdf[c1] = pdf[c2]
             columns_to_drop.append(c2)
 

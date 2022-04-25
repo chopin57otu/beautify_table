@@ -25,27 +25,34 @@ from docopt import docopt
 from beautify_table.libs.loaders import load_tables_from_csv_directory, load_documents, load_tables_from_docx
 from beautify_table.processing import process_table
 
+
+def beautify_doc(doc: Path):
+    documents = []
+    path_str = str(doc)
+    if doc.is_dir():
+        if any(p for p in doc.glob("*.csv")):
+            documents.append(load_tables_from_csv_directory(path_str))
+        else:
+            documents = load_documents(path_str)
+    elif doc.suffix == ".docx":
+        documents.append((load_tables_from_docx(path_str), doc))
+    else:
+        ValueError(doc.suffix + " is not recognized suffix")
+
+    processed_tables = []
+    for d, path in documents:
+        # if arguments["--output_format"] is None or arguments["--output_format"] == ".xlsx":
+        #     writer = pd.ExcelWriter(str(path), engine='xlsxwriter')
+        for table in d:
+            processed_tables.append(process_table(table))
+
+    return processed_tables
+
+
 if __name__ == "__main__":
     print("start")
     arguments = docopt(__doc__, version='Beautify table 1.0')
 
     print(arguments)
 
-    from_path = Path(arguments["--from"])
-
-    documents = []
-    if from_path.is_dir():
-        if any(p for p in from_path.glob("*.csv")):
-            documents.append(load_tables_from_csv_directory(str(from_path)))
-        else:
-            documents = load_documents(str(from_path))
-    elif from_path.suffix == ".docx":
-        documents.append(load_tables_from_docx(str(from_path)))
-    else:
-        ValueError(from_path.suffix + " is not recognized suffix")
-
-    for d, path in documents:
-        if arguments["--output_format"] is None or arguments["--output_format"] == ".xlsx":
-            writer = pd.ExcelWriter(str(path), engine='xlsxwriter')
-        for table in d:
-            process_table(table)
+    # from_path = Path(arguments["--from"])

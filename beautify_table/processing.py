@@ -1,4 +1,4 @@
-from beautify_table.libs.squeeze import squeeze_headers, merge_coumns
+from beautify_table.libs.squeeze import squeeze_headers, merge_columns
 from beautify_table.libs.string_manipulations import is_empty, is_number, is_string
 
 
@@ -8,14 +8,12 @@ def _identification_mask(pdf):
             return None
         if is_number(e):
             return "n"
-        if is_string(e):
-            return "s"
+        return "s"
     return pdf.applymap(substitute)
 
 
 def _identify_number_area(c):
     ic = _identification_mask(c)
-    dc = ic.copy()
 
     max_i, max_j = ic.shape
     index_sum = float('inf')
@@ -31,6 +29,6 @@ def _identify_number_area(c):
 def process_table(table):
     na = _identify_number_area(table)
     sc = squeeze_headers(table, na)
-    final = merge_coumns(sc)
+    final = merge_columns(sc)
     return final
 
