@@ -17,6 +17,7 @@ Options:
 
 """
 from pathlib import Path
+from typing import List
 
 import pandas as pd
 from docopt import docopt
@@ -27,7 +28,7 @@ from src.libs.processing import process_table
 from src.libs.objects import Table
 
 
-def main(from_path:str, to_path:str, output:bool) -> list[Table]:
+def main(from_path:str, to_path:str, output:bool) -> List[Table]:
     tables = load_tables(path=from_path)
     processed_tables = beautify_docs(tables=tables)
 
@@ -36,7 +37,7 @@ def main(from_path:str, to_path:str, output:bool) -> list[Table]:
     
     return processed_tables
 
-def beautify_docs(tables: list[Table]) -> list[Table]:
+def beautify_docs(tables: List[Table]) -> List[Table]:
     processed_tables = []
 
     for table in tables:
@@ -44,7 +45,7 @@ def beautify_docs(tables: list[Table]) -> list[Table]:
 
     return processed_tables
 
-def output_table(tables: list[Table], path:str) -> None:
+def output_table(tables: List[Table], path:str) -> None:
     writer = pd.ExcelWriter(path, engine = 'openpyxl')
 
     for i, table in enumerate(tables):

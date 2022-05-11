@@ -3,6 +3,7 @@ from .squeeze import merge_columns, squeeze_headers
 from .string_manipulations import (is_empty, is_number,
                                                           is_string)
 from .objects import Table
+from typing import Tuple
 
 
 def process_table(table:Table) -> pd.DataFrame:
@@ -14,7 +15,7 @@ def process_table(table:Table) -> pd.DataFrame:
     
     return final
 
-def _identify_number_area(df:pd.DataFrame) -> tuple[int]:
+def _identify_number_area(df:pd.DataFrame) -> Tuple[int]:
     '''Identifies end corner of the table'''
 
     ic = _identification_mask(df)

@@ -1,6 +1,6 @@
 import glob
 import pathlib
-from typing import Any, Tuple
+from typing import Any, Tuple, List
 
 import pandas as pd
 from docx import Document
@@ -8,7 +8,7 @@ from docx import Document
 from .objects import Table
 
 
-def load_tables(path: str) -> list[tuple[list[pd.DataFrame], Any]]:
+def load_tables(path: str) -> List[pd.DataFrame]:
     '''Returns list of pandas dataframes loaded from CSV directory or specified
     docx file
     '''
@@ -22,7 +22,7 @@ def load_tables(path: str) -> list[tuple[list[pd.DataFrame], Any]]:
     else:
         raise ValueError(path + " is not recognized")
     
-def _load_tables_from_csv_directory(path: str) -> list[pd.DataFrame]:
+def _load_tables_from_csv_directory(path: str) -> List[pd.DataFrame]:
     result_tables = []
 
     for i, f in enumerate(glob.glob(path + "/*.csv", recursive=True)):
@@ -34,7 +34,7 @@ def _load_tables_from_csv_directory(path: str) -> list[pd.DataFrame]:
 
     return result_tables
 
-def _load_tables_from_docx(path: str) -> list[pd.DataFrame]:
+def _load_tables_from_docx(path: str) -> List[pd.DataFrame]:
     document = Document(path)
     result_tables = []
 
