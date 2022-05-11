@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def squeeze_headers(pdf, number_area):
+def squeeze_headers(pdf:pd.DataFrame, number_area) -> pd.DataFrame:
     def apply_transform(s):
         return s.apply(str).apply(lambda x: "" if x == "NaN" else x)
 
@@ -37,7 +37,7 @@ def squeeze_headers(pdf, number_area):
     return sc
 
 
-def merge_columns(pdf):
+def merge_columns(pdf:pd.DataFrame) -> pd.DataFrame:
     columns_to_drop = []
     for c1, c2 in zip(pdf.columns, pdf.columns[1:]):
         c1s, c2s = str(c1), str(c2)
