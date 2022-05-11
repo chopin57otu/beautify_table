@@ -1,10 +1,13 @@
-from setuptools import setup
+import os
+
+from setuptools import Extension, find_packages, setup
+
+ROOT = os.path.dirname(__file__)
 
 setup(
     name='beautify_table',
-    version='0.1',
-    packages=['beautify_table'],
-    url='',
+    packages=find_packages(exclude=["test*"]),
+    version=open(os.path.join(ROOT, 'version.txt')).read().strip(),
     license='MIT',
     author='57_OTU_Chopin',
     author_email='stranma5@gmail.com',

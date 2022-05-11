@@ -1,19 +1,24 @@
-from beautify_table.libs.squeeze import squeeze_headers, merge_columns
-from beautify_table.libs.string_manipulations import is_empty, is_number, is_string
+import pandas as pd
+from beautify_table.squeeze import merge_columns, squeeze_headers
+from beautify_table.string_manipulations import (is_empty, is_number,
+                                                          is_string)
+from beautify_table.objects import Table
+from typing import Tuple
 
 
-def _identification_mask(pdf):
-    def substitute(e):
-        if is_empty(e):
-            return None
-        if is_number(e):
-            return "n"
-        return "s"
-    return pdf.applymap(substitute)
+def process_table(table:Table) -> pd.DataFrame:
+    na = _identify_number_area(table.df)
+    sc = squeeze_headers(table.df, na)
+    merged = merge_columns(sc)
+    cleaned = merged.replace(to_replace=[r"\\t|\\n|\\r", "\t|\n|\r"], value=["",""], regex=True)
+    final = Table(table.path, cleaned)
+    
+    return final
 
+def _identify_number_area(df:pd.DataFrame) -> Tuple[int]:
+    '''Identifies end corner of the table'''
 
-def _identify_number_area(c):
-    ic = _identification_mask(c)
+    ic = _identification_mask(df)
 
     max_i, max_j = ic.shape
     index_sum = float('inf')
@@ -25,10 +30,17 @@ def _identify_number_area(c):
 
     return max_i, max_j
 
+def _identification_mask(df:pd.DataFrame):
+    '''Fills in entire table with None, n or s based on cell data type'''
 
-def process_table(table):
-    na = _identify_number_area(table)
-    sc = squeeze_headers(table, na)
-    final = merge_columns(sc)
-    return final
+    def substitute(e):
+        if is_empty(e):
+            return None
+        if is_number(e):
+            return "n"
+        return "s"
+    return df.applymap(substitute)
+
+
+
 

@@ -7,52 +7,59 @@ and row and column labels are concatenated. Load tables from docx,
 directory of csv files or directory of both.
 
 Usage:
-  beautify.py --from <input_file_or_dir> --to <dir> [<filename>]
+  beautify.py --from <input_file_or_dir> --to <dir> --output-to-file
 
 Options:
   -h --help                   Show this screen.
-  --version                   Show version.
   --from <input_file_or_dir>  Input files or directory of csv files or directory of input files.
-  --to <dir>                  Output directory and name of output file id single file on input.
-  --output_format <format>    Output format. '.xlsx' by default
+  --to <dir>                  Output directory.
+  --output-to-file            Whether to output result to file (.xlsx).
 
 """
 from pathlib import Path
+from typing import List
 
 import pandas as pd
 from docopt import docopt
+import openpyxl
 
-from beautify_table.libs.loaders import load_tables_from_csv_directory, load_documents, load_tables_from_docx
+from beautify_table.loaders import load_tables
 from beautify_table.processing import process_table
+from beautify_table.objects import Table
 
 
-def beautify_doc(doc: Path):
-    documents = []
-    path_str = str(doc)
-    if doc.is_dir():
-        if any(p for p in doc.glob("*.csv")):
-            documents.append(load_tables_from_csv_directory(path_str))
-        else:
-            documents = load_documents(path_str)
-    elif doc.suffix == ".docx":
-        documents.append((load_tables_from_docx(path_str), doc))
-    else:
-        ValueError(doc.suffix + " is not recognized suffix")
+def main(from_path:str, to_path:str, output:bool) -> List[Table]:
+    tables = load_tables(path=from_path)
+    processed_tables = beautify_docs(tables=tables)
 
+    if output:
+        output_table(processed_tables, f"{to_path}/result.xlsx")
+    
+    return processed_tables
+
+def beautify_docs(tables: List[Table]) -> List[Table]:
     processed_tables = []
-    for d, path in documents:
-        # if arguments["--output_format"] is None or arguments["--output_format"] == ".xlsx":
-        #     writer = pd.ExcelWriter(str(path), engine='xlsxwriter')
-        for table in d:
-            processed_tables.append(process_table(table))
+
+    for table in tables:
+        processed_tables.append(process_table(table))
 
     return processed_tables
 
+def output_table(tables: List[Table], path:str) -> None:
+    writer = pd.ExcelWriter(path, engine = 'openpyxl')
+
+    for i, table in enumerate(tables):
+        table.df["path"] = table.path
+        table.df.to_excel(writer, sheet_name = str(i))
+    writer.save()
+    writer.close()
 
 if __name__ == "__main__":
-    print("start")
     arguments = docopt(__doc__, version='Beautify table 1.0')
 
-    print(arguments)
+    from_path = arguments["--from"]
+    to_path = arguments["--to"]
+    if to_path[-1] == '/': to_path = to_path[:-1]
+    output = arguments["--output-to-file"]
 
-    # from_path = Path(arguments["--from"])
+    main(from_path, to_path, output)

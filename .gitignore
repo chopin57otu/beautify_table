@@ -1,3 +1,8 @@
-/data/nice/*
-/data/other/*
-/data/res/*
+**/data/nice/*
+**/data/other/*
+**/data/res/*
+venv
+build
+dist
+**.egg*
+__pycache__
