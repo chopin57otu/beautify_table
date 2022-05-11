@@ -3,4 +3,4 @@ COPY requirements.txt /home
 RUN pip install -r /home/requirements.txt
 COPY . /home
 WORKDIR /home
-ENTRYPOINT ["python", "/home/beautify.py"]
+ENTRYPOINT ["python", "/home/beautify_table/beautify.py"]

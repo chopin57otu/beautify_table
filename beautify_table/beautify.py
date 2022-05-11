@@ -23,9 +23,9 @@ import pandas as pd
 from docopt import docopt
 import openpyxl
 
-from src.libs.loaders import load_tables
-from src.libs.processing import process_table
-from src.libs.objects import Table
+from beautify_table.loaders import load_tables
+from beautify_table.processing import process_table
+from beautify_table.objects import Table
 
 
 def main(from_path:str, to_path:str, output:bool) -> List[Table]:

@@ -1,8 +1,8 @@
 import pandas as pd
-from .squeeze import merge_columns, squeeze_headers
-from .string_manipulations import (is_empty, is_number,
+from beautify_table.squeeze import merge_columns, squeeze_headers
+from beautify_table.string_manipulations import (is_empty, is_number,
                                                           is_string)
-from .objects import Table
+from beautify_table.objects import Table
 from typing import Tuple
 
 

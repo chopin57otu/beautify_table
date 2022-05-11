@@ -1,5 +1,11 @@
 # Table beautifier
 
+## Build
+`python setup.py sdist bdist_wheel`
+
+## Install
+`pip install dist/beautify_table-1.0-py3-none-any.whl`
+
 ## Run
 ### Locally
 ```bash

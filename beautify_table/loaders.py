@@ -5,7 +5,7 @@ from typing import Any, Tuple, List
 import pandas as pd
 from docx import Document
 
-from .objects import Table
+from beautify_table.objects import Table
 
 
 def load_tables(path: str) -> List[pd.DataFrame]:
