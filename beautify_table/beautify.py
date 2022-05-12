@@ -1,6 +1,6 @@
-"""Beautify tables is program for getting numerical data from ugly
-data tables such as those parsed using https://github.com/tabulapdf/tabula
-or converted pdf documents.
+"""Beautify table is program for getting numerical data from ugly
+data tables such as those parsed using [Tabula](https://github.com/tabulapdf/tabula)
+or tables in MS Word DOCX documents.
 
 It clean tables so there is rectangle of numbers in right bottom
 and row and column labels are concatenated. Load tables from docx,
