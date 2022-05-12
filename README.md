@@ -8,12 +8,22 @@
 `pip install beautify_table` (from PyPi)
 
 ## Run
-### Locally
+### From command line
 ```bash
 python beautify_table/beautify.py \
     --from "<path-to-folder-with-csv-or-docx>" \
     --to "<path-to-save-result-into>" \
     --output-to-file
+```
+
+### As python package
+```python
+from beautify_table.beautify import main as get_beautiful_tables
+btables = get_beautiful_tables(
+    from_path=input_path, 
+    output=True,
+    to_path=output_path
+) # returns list of Table objects
 ```
 
 ### In docker
