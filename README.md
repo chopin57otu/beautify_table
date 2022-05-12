@@ -5,6 +5,7 @@
 
 ## Install
 `pip install dist/beautify_table-1.0-py3-none-any.whl`
+`pip install beautify_table` (from PyPi)
 
 ## Run
 ### Locally

@@ -7,14 +7,13 @@ and row and column labels are concatenated. Load tables from docx,
 directory of csv files or directory of both.
 
 Usage:
-  beautify.py --from <input_file_or_dir> --to <dir> --output-to-file
+  beautify.py --from <input_file_or_dir> [--output-to-file] [--to <dir>]
 
 Options:
   -h --help                   Show this screen.
   --from <input_file_or_dir>  Input files or directory of csv files or directory of input files.
-  --to <dir>                  Output directory.
-  --output-to-file            Whether to output result to file (.xlsx).
-
+  --output-to-file            Optional Whether to output result to file (.xlsx).
+  --to <dir>                  Optional Output directory if --output-to-file is True.
 """
 from pathlib import Path
 from typing import List
@@ -28,7 +27,7 @@ from beautify_table.processing import process_table
 from beautify_table.objects import Table
 
 
-def main(from_path:str, to_path:str, output:bool) -> List[Table]:
+def main(from_path:str, output:bool, to_path:str="") -> List[Table]:
     tables = load_tables(path=from_path)
     processed_tables = beautify_docs(tables=tables)
 
@@ -59,7 +58,8 @@ if __name__ == "__main__":
 
     from_path = arguments["--from"]
     to_path = arguments["--to"]
-    if to_path[-1] == '/': to_path = to_path[:-1]
+    if not to_path is None:
+        if to_path[-1] == '/': to_path = to_path[:-1]
     output = arguments["--output-to-file"]
 
     main(from_path, to_path, output)
